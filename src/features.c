@@ -24,3 +24,20 @@ void dimension(char *filename){
     free_image_data(data);
 }
 
+void second_line(char *filename){
+    int width,height,channel_count, index;
+    unsigned char *data;
+    pixelRGB p;
+
+
+    read_image_data(filename, &data, &width, &height, &channel_count);
+    index=(1*height+0)*channel_count;
+
+    p.R = data[index];
+    p.G = data[index+1];
+    p.B = data[index+2];
+
+    printf("second_line: %d, %d, %d",p.R,p.G,p.B);
+    free_image_data(data);
+}
+
