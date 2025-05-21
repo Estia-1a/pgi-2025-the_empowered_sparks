@@ -24,3 +24,18 @@ void dimension(char *filename){
     free_image_data(data);
 }
 
+void first_pixel(char *filename){
+    int width, height, channel_count, index;
+    unsigned char *data;
+    pixelRGB pixel1;
+
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    index = 0;
+    pixel1.R = data[index];
+    pixel1.G = data[index+1];
+    pixel1.B = data[index+2];
+
+    printf("first_pixel: %d, %d, %d",pixel1.R,pixel1.G,pixel1.B);
+    free_image_data(data);
+}
