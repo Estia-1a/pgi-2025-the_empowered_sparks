@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
   } else if ( strncmp( configuration.command, "tenth_pixel", 11) == 0 ) {
     /* tenth_pixel() function is defined in feature.h and implemented in feature.c */
     tenth_pixel(configuration.filenames[0]);
-  } else if ( strncmp( configuration.command, "second_line", 9) == 0 ) {
+  } else if ( strncmp( configuration.command, "second_line", 11) == 0 ) {
     /* helloworld() function is defined in feature.h and implemented in feature.c */
     second_line(configuration.filenames[0]);
   }
