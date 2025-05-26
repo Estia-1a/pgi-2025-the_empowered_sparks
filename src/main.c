@@ -45,7 +45,19 @@ int main(int argc, char **argv) {
   } else if ( strncmp( configuration.command, "min_pixel", 9) == 0 ) {
     /* min_pixel function is defined in feature.h and implemented in feature.c */
     min_pixel(configuration.filenames[0]);
-  }
+  } else if ( strncmp(configuration.command, "max_component", 13) == 0) {
+    if (configuration.arguments[0] != NULL &&
+        (strcmp(configuration.arguments[0], "R") == 0 ||
+         strcmp(configuration.arguments[0], "G") == 0 ||
+         strcmp(configuration.arguments[0], "B") == 0)) {
+
+        char component = configuration.arguments[0][0];
+        max_component(configuration.filenames[0], component);
+
+    } else {
+        printf("Usage: -c max_component [R|G|B]\n");
+    }
+}
   /*
    * TO COMPLETE
    */
