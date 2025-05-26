@@ -73,3 +73,35 @@ void second_line(char *filename){
     free_image_data(data);
 }
 
+void max_pixel(char *filename){
+ int width, height, channel_count, index, max, maxindex, x, y,max_x,max_y;
+    unsigned char *data;
+    pixelRGB pixel1;
+    pixelRGB max_pixel1;
+
+    read_image_data(filename, &data, &width, &height, &channel_count);
+    
+    for (index=0 ; index< height*width*channel_count ;index++){
+    
+        pixel1.R = data[index];
+        pixel1.G = data[index+1];
+        pixel1.B = data[index+2]; 
+    
+        if (pixel1.R+pixel1.G+pixel1.B > max){
+            max = pixel1.R+pixel1.G+pixel1.B ;
+            maxindex = index;
+            max_pixel1.R = data[maxindex];
+            max_pixel1.G = data[maxindex+1];
+            max_pixel1.B = data[maxindex+2];
+            for (x=0 ; x <= 1488 ; x++){
+                for (y=0 ; y <= 1488 ; y++){
+                    max_x = x;
+                    max_y = y;
+                }  
+            } 
+        } 
+    }
+
+    printf("max_pixel (%d, %d): %d, %d, %d",max_x,max_y, max_pixel1.R,max_pixel1.G,max_pixel1.B);
+    free_image_data(data);
+}
