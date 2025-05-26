@@ -46,7 +46,7 @@ void tenth_pixel(char *filename) {
     pixelRGB pixel;
 
     read_image_data(filename, &data, &width, &height, &channel_count);
-    index = (0*height + 9) * channel_count;
+    index = (0*width + 9) * channel_count;
 
     pixel.R = data[index];
     pixel.G = data[index+1];
@@ -63,13 +63,40 @@ void second_line(char *filename){
 
 
     read_image_data(filename, &data, &width, &height, &channel_count);
-    index=(1*height+0)*channel_count;
+    index=(1*width+0)*channel_count;
 
     p.R = data[index];
     p.G = data[index+1];
     p.B = data[index+2];
 
     printf("second_line: %d, %d, %d",p.R,p.G,p.B);
+    free_image_data(data);
+}
+
+void min_pixel(char *filename){
+    int width, height, channel_count;
+    unsigned char *data;
+    pixelRGB pixel, min_pixel;
+    int min_sum = 256 * 3 + 1;
+    int min_x = 0, min_y = 0; 
+
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    for (int y = 0; y < height; y++){
+        for (int x = 0; x < width; x++){
+            pixel = getPixel(data, width, channel_count, x, y);
+            int sum = pixel.R + pixel.G + pixel.B;
+
+            if (sum < min_sum){
+                min_sum = sum;
+                min_pixel = pixel;
+                min_x = x;
+                min_y = y;
+            }
+        }
+    }
+
+    printf("min_pixel (%d, %d): %d, %d, %d",min_x, min_y, min_pixel.R, min_pixel.G, min_pixel.B);
     free_image_data(data);
 }
 
