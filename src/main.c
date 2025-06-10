@@ -83,7 +83,10 @@ int main(int argc, char **argv) {
 } else if ( strncmp(configuration.command, "color_blue", 9) == 0){
   /* color_blue function is defined in feature.h and implemented in feature.c */
   color_blue(configuration.filenames[0]);
-} 
+} else if ( strncmp(configuration.command, "color_invert", 9) == 0){
+  /* color_blue function is defined in feature.h and implemented in feature.c */
+  color_invert(configuration.filenames[0]);
+}
   /*
    * TO COMPLETE
    */
