@@ -6,7 +6,6 @@ void helloWorld();
 
 void dimension(char *filename);
 
-
 void second_line(char *filename);
 
 void first_pixel (char *filename);
