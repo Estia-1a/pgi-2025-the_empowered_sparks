@@ -29,27 +29,64 @@ int main(int argc, char **argv) {
    */
   if ( strncmp( configuration.command, "helloworld", 10 ) == 0 ) {
     /* helloworld() function is defined in feature.h and implemented in feature.c */
-    helloWorld();
+      helloWorld();
   } else if ( strncmp( configuration.command, "dimension", 9) == 0 ) {
     /* dimension() function is defined in feature.h and implemented in feature.c */
-    dimension(configuration.filenames[0]);
+      dimension(configuration.filenames[0]);
   }  else if ( strncmp( configuration.command, "first_pixel", 11 ) == 0 ) {
     /* first_pixel() function is defined in feature.h and implemented in feature.c */
-    first_pixel(configuration.filenames[0]);
+      first_pixel(configuration.filenames[0]);
   } else if ( strncmp( configuration.command, "tenth_pixel", 11) == 0 ) {
     /* tenth_pixel() function is defined in feature.h and implemented in feature.c */
-    tenth_pixel(configuration.filenames[0]);
+      tenth_pixel(configuration.filenames[0]);
   } else if ( strncmp( configuration.command, "second_line", 11) == 0 ) {
-    /* helloworld() function is defined in feature.h and implemented in feature.c */
+    /* second_line function is defined in feature.h and implemented in feature.c */
     second_line(configuration.filenames[0]);
   } else if ( strncmp( configuration.command, "print_pixel", 11) == 0 ) {
     /* helloworld() function is defined in feature.h and implemented in feature.c */
     int x = atoi(configuration.arguments[0]);
     int y = atoi(configuration.arguments[1]);
     print_pixel(configuration.filenames[0],x,y);
-  } 
+  } else if ( strncmp( configuration.command, "min_pixel", 9) == 0 ) {
+    /* min_pixel function is defined in feature.h and implemented in feature.c */
+      min_pixel(configuration.filenames[0]);
+  }else if ( strncmp(configuration.command, "max_pixel", 11) ==0 ){ ;
+    /* max_pixel function is defined in feature.h and implemented in feature.c */
+      max_pixel(configuration.filenames[0]);
+  } else if ( strncmp(configuration.command, "max_component", 13) == 0) {
+    if (configuration.arguments[0] != NULL &&
+        (strcmp(configuration.arguments[0], "R") == 0 ||
+         strcmp(configuration.arguments[0], "G") == 0 ||
+         strcmp(configuration.arguments[0], "B") == 0)) {
+
+        char component = configuration.arguments[0][0];
+        max_component(configuration.filenames[0], component);
+
+    } else {
+        printf("Usage: -c max_component [R|G|B]\n");
+    }
+} else if ( strncmp(configuration.command, "min_component", 13) == 0) {
+    if (configuration.arguments[0] != NULL &&
+        (strcmp(configuration.arguments[0], "R") == 0 ||
+         strcmp(configuration.arguments[0], "G") == 0 ||
+         strcmp(configuration.arguments[0], "B") == 0)) {
+
+        char component = configuration.arguments[0][0];
+        min_component(configuration.filenames[0], component);
+
+    } else {
+        printf("Usage: -c min_component [R|G|B]\n");
+    }
+} else if ( strncmp(configuration.command, "color_red", 9) == 0){
+  /* color_red function is defined in feature.h and implemented in feature.c */
+  color_red(configuration.filenames[0]);
+} else if ( strncmp(configuration.command, "color_blue", 9) == 0){
+  /* color_blue function is defined in feature.h and implemented in feature.c */
+  color_blue(configuration.filenames[0]);
+} 
   /*
    * TO COMPLETE
    */
   return 0;
 }
+

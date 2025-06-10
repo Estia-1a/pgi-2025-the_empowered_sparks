@@ -46,7 +46,7 @@ void tenth_pixel(char *filename) {
     pixelRGB pixel;
 
     read_image_data(filename, &data, &width, &height, &channel_count);
-    index = (0*height + 9) * channel_count;
+    index = (0*width + 9) * channel_count;
 
     pixel.R = data[index];
     pixel.G = data[index+1];
@@ -63,7 +63,7 @@ void second_line(char *filename){
 
 
     read_image_data(filename, &data, &width, &height, &channel_count);
-    index=(1*height+0)*channel_count;
+    index=(1*width+0)*channel_count;
 
     p.R = data[index];
     p.G = data[index+1];
@@ -72,6 +72,161 @@ void second_line(char *filename){
     printf("second_line: %d, %d, %d",p.R,p.G,p.B);
     free_image_data(data);
 }
+
+void min_pixel(char *filename){
+    int width, height, channel_count;
+    unsigned char *data;
+    pixelRGB pixel, min_pixel;
+    int min_sum = 256 * 3 + 1;
+    int min_x = 0, min_y = 0; 
+
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    for (int y = 0; y < height; y++){
+        for (int x = 0; x < width; x++){
+            pixel = getPixel(data, width, channel_count, x, y);
+            int sum = pixel.R + pixel.G + pixel.B;
+
+            if (sum < min_sum){
+                min_sum = sum;
+                min_pixel = pixel;
+                min_x = x;
+                min_y = y;
+            }
+        }
+    }
+
+    printf("min_pixel (%d, %d): %d, %d, %d",min_x, min_y, min_pixel.R, min_pixel.G, min_pixel.B);
+    free_image_data(data);
+}
+
+void max_pixel(char *filename){
+ int width, height, channel_count, max, max_x=0, max_y=0;
+    unsigned char *data;
+    pixelRGB pixel1;
+    pixelRGB max_pixel1;
+
+    read_image_data(filename, &data, &width, &height, &channel_count);
+    
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int index = (y * width + x) * channel_count;
+
+            pixel1.R = data[index];
+            pixel1.G = data[index + 1];
+            pixel1.B = data[index + 2];
+
+            int sum = pixel1.R + pixel1.G + pixel1.B;
+
+            if (sum > max) {
+                max = sum;
+                max_pixel1 = pixel1;
+                max_x = x;
+                max_y = y;
+            }
+        }
+    }
+    printf("max_pixel (%d, %d): %d, %d, %d",max_x,max_y, max_pixel1.R,max_pixel1.G,max_pixel1.B);
+    free_image_data(data);  
+}
+
+void max_component(char *filename, char component) {
+    int width, height, channel_count;
+    unsigned char *data;
+    pixelRGB pixel;
+    int max_value = -1;
+    int max_x = 0, max_y = 0;
+
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            pixel = getPixel(data, width, channel_count, x, y);
+            int value = 0;
+
+            if (component == 'R') value = pixel.R;
+            else if (component == 'G') value = pixel.G;
+            else if (component == 'B') value = pixel.B;
+
+            if (value > max_value) {
+                max_value = value;
+                max_x = x;
+                max_y = y;
+            }
+        }
+    }
+    printf("max_component %c (%d, %d): %d", component, max_x, max_y, max_value);
+    free_image_data(data);
+}
+
+void min_component(char *filename, char component) {
+    int width, height, channel_count;
+    unsigned char *data;
+    pixelRGB pixel;
+    int min_value = 256;  
+    int min_x = 0, min_y = 0;
+
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            pixel = getPixel(data, width, channel_count, x, y);
+            int value = 0;
+
+            if (component == 'R') value = pixel.R;
+            else if (component == 'G') value = pixel.G;
+            else if (component == 'B') value = pixel.B;
+
+            if (value < min_value) {
+                min_value = value;
+                min_x = x;
+                min_y = y;
+            }
+        }
+    }
+
+    printf("min_component %c (%d, %d): %d", component, min_x, min_y, min_value);
+    free_image_data(data);
+}
+
+void color_red(char *filename) {
+    int width, height, channel_count;
+    unsigned char *data;
+    pixelRGB pixel;
+
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            pixel = getPixel(data, width, channel_count, x, y);
+            pixel.G = 0;
+            pixel.B = 0;
+            setPixel(data, width, channel_count, x, y, pixel);
+        }
+    }
+    write_image_data("image_out.bmp", data, width, height);
+    free_image_data(data);
+}
+
+void color_blue(char *filename) {
+    int width, height, channel_count;
+    unsigned char *data;
+    pixelRGB pixel;
+
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            pixel = getPixel(data, width, channel_count, x, y);
+            pixel.G = 0;
+            pixel.R = 0;
+            setPixel(data, width, channel_count, x, y, pixel);
+        }
+    }
+    write_image_data("image_out.bmp", data, width, height);
+    free_image_data(data);
+}
+
 
 void print_pixel(char *filename, int x, int y){
     int width,height,channel_count;
