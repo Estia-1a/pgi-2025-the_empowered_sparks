@@ -260,5 +260,25 @@ void color_gray(char *filename) {
     free_image_data(data);
 }
 
+void color_green(char *filename) {
+    int width, height, channel_count;
+    unsigned char *data;
+    pixelRGB pixel;
+
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            pixel = getPixel(data, width, channel_count, x, y);
+            pixel.R = 0;
+            pixel.B = 0;
+            setPixel(data, width, channel_count, x, y, pixel);
+        }
+    }
+
+    write_image_data("image_out.bmp", data, width, height);
+    free_image_data(data);
+}
+
 
 
