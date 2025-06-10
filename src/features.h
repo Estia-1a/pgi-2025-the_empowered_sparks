@@ -11,4 +11,6 @@ void first_pixel (char *filename);
 
 void tenth_pixel (char *source_path);
 
+void print_pixel(char *filename, int x, int y);
+
 #endif

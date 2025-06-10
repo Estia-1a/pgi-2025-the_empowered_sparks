@@ -73,3 +73,14 @@ void second_line(char *filename){
     free_image_data(data);
 }
 
+void print_pixel(char *filename, int x, int y){
+    int width,height,channel_count;
+    unsigned char *data;
+    read_image_data(filename, &data, &width, &height, &channel_count);
+    pixelRGB *p = get_pixel(data, width, height, channel_count, x, y);
+
+    printf("print_pixel (%d,%d): %d, %d, %d",x,y,p->R,p->G,p->B);
+    free_image_data(data);
+}
+
+
