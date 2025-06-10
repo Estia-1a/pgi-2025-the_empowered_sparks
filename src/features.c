@@ -126,7 +126,88 @@ void max_pixel(char *filename){
             }
         }
     }
-
     printf("max_pixel (%d, %d): %d, %d, %d",max_x,max_y, max_pixel1.R,max_pixel1.G,max_pixel1.B);
+    free_image_data(data);  
+}
+
+void max_component(char *filename, char component) {
+    int width, height, channel_count;
+    unsigned char *data;
+    pixelRGB pixel;
+    int max_value = -1;
+    int max_x = 0, max_y = 0;
+
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            pixel = getPixel(data, width, channel_count, x, y);
+            int value = 0;
+
+            if (component == 'R') value = pixel.R;
+            else if (component == 'G') value = pixel.G;
+            else if (component == 'B') value = pixel.B;
+
+            if (value > max_value) {
+                max_value = value;
+                max_x = x;
+                max_y = y;
+            }
+        }
+    }
+    printf("max_component %c (%d, %d): %d", component, max_x, max_y, max_value);
     free_image_data(data);
 }
+
+void min_component(char *filename, char component) {
+    int width, height, channel_count;
+    unsigned char *data;
+    pixelRGB pixel;
+    int min_value = 256;  
+    int min_x = 0, min_y = 0;
+
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            pixel = getPixel(data, width, channel_count, x, y);
+            int value = 0;
+
+            if (component == 'R') value = pixel.R;
+            else if (component == 'G') value = pixel.G;
+            else if (component == 'B') value = pixel.B;
+
+            if (value < min_value) {
+                min_value = value;
+                min_x = x;
+                min_y = y;
+            }
+        }
+    }
+
+    printf("min_component %c (%d, %d): %d", component, min_x, min_y, min_value);
+    free_image_data(data);
+}
+
+void color_red(char *filename) {
+    int width, height, channel_count;
+    unsigned char *data;
+    pixelRGB pixel;
+
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            pixel = getPixel(data, width, channel_count, x, y);
+            pixel.G = 0;
+            pixel.B = 0;
+            setPixel(data, width, channel_count, x, y, pixel);
+        }
+    }
+    write_image_data("image_out.bmp", data, width, height);
+    free_image_data(data);
+}
+
+
+
+

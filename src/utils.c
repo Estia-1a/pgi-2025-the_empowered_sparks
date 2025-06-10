@@ -17,3 +17,10 @@ pixelRGB getPixel(unsigned char* data, const unsigned int width, const unsigned 
 
     return pixel;
 }
+
+void setPixel(unsigned char* data, const unsigned int width, const unsigned int channel_count, const unsigned int x, const unsigned int y, pixelRGB pixel) {
+    int index = (y * width + x) * channel_count;
+    data[index] = pixel.R;
+    data[index + 1] = pixel.G;
+    data[index + 2] = pixel.B;
+}
