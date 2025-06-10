@@ -238,6 +238,104 @@ void print_pixel(char *filename, int x, int y){
     free_image_data(data);
 }
 
+void stat_report (char *filename){
+    int width,height,channel_count, max, max_x=0, max_y=0;
+    char components[] = {'R', 'G', 'B'};
+    unsigned char *data;
+    FILE *f = fopen("stat_reports.txt", "w");
+    pixelRGB pixel, min_pixel, pixel1, max_pixel1;
+
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int index = (y * width + x) * channel_count;
+
+            pixel1.R = data[index];
+            pixel1.G = data[index + 1];
+            pixel1.B = data[index + 2];
+
+            int sum = pixel1.R + pixel1.G + pixel1.B;
+
+            if (sum > max) {
+                max = sum;
+                max_pixel1 = pixel1;
+                max_x = x;
+                max_y = y;
+            }
+        }
+    }
+    fprintf(f,"max_pixel (%d, %d): %d, %d, %d\n",max_x,max_y, max_pixel1.R,max_pixel1.G,max_pixel1.B); 
+
+    int min_sum = 256 * 3 + 1;
+    int min_x = 0, min_y = 0; 
+
+    for (int y = 0; y < height; y++){
+        for (int x = 0; x < width; x++){
+            pixel = getPixel(data, width, channel_count, x, y);
+            int sum = pixel.R + pixel.G + pixel.B;
+
+            if (sum < min_sum){
+                min_sum = sum;
+                min_pixel = pixel;
+                min_x = x;
+                min_y = y;
+            }
+        }
+    }
+
+    fprintf(f,"min_pixel (%d, %d): %d, %d, %d\n",min_x, min_y, min_pixel.R, min_pixel.G, min_pixel.B);
+
+    for (int i = 0; i < 3; i++) {
+                char component = components[i];
+                int max_value = -1;
+                int max_x = 0, max_y = 0;
+
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    pixel = getPixel(data, width, channel_count, x, y);
+                    int value = 0;
+
+                    if (component == 'R') value = pixel.R;
+                    else if (component == 'G') value = pixel.G;
+                    else if (component == 'B') value = pixel.B;
+
+                    if (value > max_value) {
+                        max_value = value;
+                        max_x = x;
+                        max_y = y;
+                    }
+                }
+            }
+            fprintf(f, "max_component %c (%d, %d): %d\n", component, max_x, max_y, max_value);
+        }
+
+    for (int i = 0; i < 3; i++) {
+            char component = components[i];
+            int min_value = 256;
+            int min_x = 0, min_y = 0;
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                pixel = getPixel(data, width, channel_count, x, y);
+                int value = 0;
+
+                if (component == 'R') value = pixel.R;
+                else if (component == 'G') value = pixel.G;
+                else if (component == 'B') value = pixel.B;
+
+                if (value < min_value) {
+                    min_value = value;
+                    min_x = x;
+                    min_y = y;
+                }
+            }
+        }
+        fprintf(f,"min_component %c (%d, %d): %d\n", component, min_x, min_y, min_value);
+    }
+fclose(f);
+}
+
 void color_gray(char *filename) {
     int width, height, channel_count;
     unsigned char *data;
