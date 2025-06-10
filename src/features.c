@@ -175,7 +175,6 @@ void color_red(char *filename) {
             setPixel(data, width, channel_count, x, y, pixel);
         }
     }
-
     write_image_data("image_out.bmp", data, width, height);
     free_image_data(data);
 }
