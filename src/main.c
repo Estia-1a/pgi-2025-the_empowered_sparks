@@ -83,8 +83,17 @@ int main(int argc, char **argv) {
 } else if ( strncmp(configuration.command, "color_blue", 9) == 0){
   /* color_blue function is defined in feature.h and implemented in feature.c */
   color_blue(configuration.filenames[0]);
-} else if ( strncmp(configuration.command, "color_invert", 9) == 0){
-  /* color_blue function is defined in feature.h and implemented in feature.c */
+} else if (strncmp(configuration.command, "color_gray", 10) == 0) {
+  /* color_gray function is defined in feature.h and implemented in feature.c */
+    color_gray(configuration.filenames[0]);
+} else if (strncmp(configuration.command, "color_green", 11) == 0) {
+  /* color_gray function is defined in feature.h and implemented in feature.c */
+    color_green(configuration.filenames[0]);
+} else if (strncmp(configuration.command, "color_gray_luminance", 20) == 0) {
+  /* color_gray function is defined in feature.h and implemented in feature.c */
+    color_gray_luminance(configuration.filenames[0]);
+}else if ( strncmp(configuration.command, "color_invert", 9) == 0){
+  /* color_invert function is defined in feature.h and implemented in feature.c */
   color_invert(configuration.filenames[0]);
 }
   /*
@@ -92,4 +101,3 @@ int main(int argc, char **argv) {
    */
   return 0;
 }
-
