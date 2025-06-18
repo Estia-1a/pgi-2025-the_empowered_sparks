@@ -1,7 +1,6 @@
 #include <estia-image.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdlib.h>
 #include "features.h"
 #include "utils.h"
 
@@ -558,6 +557,36 @@ void mirror_total(char*filename){
             setPixel(data, width, channel_count, x, y, pixelbas);
             setPixel(data, width, channel_count, miroire2, miroire, pixelhaut);
             
+        }
+    }
+    write_image_data("image_out.bmp", data, width, height);
+    free_image_data(data);
+}
+
+void color_desaturate(char * filename) {
+    int width, height, channel_count;
+    unsigned char *data;
+    pixelRGB pixel;
+
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            pixel = getPixel(data, width, channel_count, x, y);
+
+            unsigned char mn = pixel.R;
+            if (pixel.G < mn) mn = pixel.G;
+            if (pixel.B < mn) mn = pixel.B;
+
+            unsigned char mx = pixel.R;
+            if (pixel.G > mx) mx = pixel.G;
+            if (pixel.B > mx) mx = pixel.B;
+
+            unsigned char new_val = (mn + mx) / 2;
+
+            pixel.R = pixel.G = pixel.B = new_val;
+
+            setPixel(data, width, channel_count, x, y, pixel);
         }
     }
     write_image_data("image_out.bmp", data, width, height);

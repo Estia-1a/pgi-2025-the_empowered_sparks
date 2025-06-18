@@ -47,6 +47,8 @@ void mirror_total (char *filename);
 
 void rotate_acw(char * filename);
 
+void color_desaturate(char * filename);
+
 void scale_bilinear(char* filename, float scale);
 
 #endif
