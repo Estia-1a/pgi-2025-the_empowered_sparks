@@ -35,6 +35,6 @@ void color_green(char *filename);
 
 void color_gray_luminance(char *filename);
 
-
+void scale_crop(char *filename, int center_x, int center_y, int width, int heigth);
 
 #endif

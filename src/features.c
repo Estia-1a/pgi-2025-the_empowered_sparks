@@ -1,6 +1,6 @@
 #include <estia-image.h>
 #include <stdio.h>
-
+#include <stdlib.h>
 #include "features.h"
 #include "utils.h"
 
@@ -334,6 +334,7 @@ void stat_report (char *filename){
         fprintf(f,"min_component %c (%d, %d): %d\n", component, min_x, min_y, min_value);
     }
 fclose(f);
+free_image_data(data);
 }
 
 void color_gray(char *filename) {
@@ -426,3 +427,35 @@ void color_invert(char *filename) {
     write_image_data("image_out.bmp", data, width, height);
     free_image_data(data);
 }
+
+void scale_crop(char *filename, int center_x, int center_y, int width, int height) {
+    int src_width,src_height,channel_count;
+    unsigned char *data;
+    int left   = center_x - width/2;
+    int top    = center_y - height/2;
+    pixelRGB pixel;
+    read_image_data(filename, &data, &src_width, &src_height, &channel_count);
+
+    unsigned char *dst_data = malloc(width * height * channel_count);
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int x_src = left + x;
+            int y_src = top  + y;
+
+            if (x_src >= 0 && x_src < src_width && y_src >= 0 && y_src < src_height){
+                pixel = getPixel(data,src_width,channel_count,x_src, y_src);
+            } else {
+                pixel.R = pixel.G = pixel.B = 0;
+            }
+
+            setPixel(dst_data,width, channel_count, x, y, pixel);
+
+        }}
+
+            write_image_data("image_out.bmp",dst_data, width, height);
+            free_image_data(data);
+            free(dst_data);
+
+}
+
