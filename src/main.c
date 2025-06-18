@@ -108,7 +108,11 @@ int main(int argc, char **argv) {
   } else if ( strncmp(configuration.command, "color_desaturate", 16) == 0){
   /* mirror_total function is defined in feature.h and implemented in feature.c */
     color_desaturate(configuration.filenames[0]);
+  } else if (strncmp(configuration.command, "scale_nearest", 13) == 0){
+    /* scale_nearest function is defined in feature.h and implemented in feature.c */
+    scale_nearest(configuration.filenames[0], atof(configuration.arguments[0]));
   }
+
   /*
    * TO COMPLETE
    */

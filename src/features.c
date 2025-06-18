@@ -618,3 +618,27 @@ void scale_bilinear(char* filename, float scale) {
     free_image_data(data);
     free_image_data(new_data);
 }
+
+void scale_nearest(char *filename, float scale) {
+    int width, height, channel_count;
+    unsigned char *data;
+
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    int new_width = (int)(width * scale);
+    int new_height = (int)(height * scale);
+    unsigned char *resized_data = malloc(new_width * new_height * channel_count);
+
+    for (int y = 0; y < new_height; y++) {
+        for (int x = 0; x < new_width; x++) {
+            int src_x = (int)(x / scale);
+            int src_y = (int)(y / scale);
+            pixelRGB pixel = getPixel(data, width, channel_count, src_x, src_y);
+            setPixel(resized_data, new_width, channel_count, x, y, pixel);
+        }
+    }
+
+    write_image_data("image_out.bmp", resized_data, new_width, new_height);
+    free_image_data(data);
+    free(resized_data);
+}
