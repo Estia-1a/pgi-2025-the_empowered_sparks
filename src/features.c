@@ -488,3 +488,26 @@ void mirror_vertical(char*filename){
     write_image_data("image_out.bmp", data, width, height);
     free_image_data(data);
 }
+
+void mirror_total(char*filename){
+   int width,height,channel_count;
+    unsigned char *data;
+    pixelRGB pixelbas, pixelhaut;
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    for (int y = 0; y < height/2; y++) {
+        int miroire = height - 1 - y;
+        for (int x = 0; x < width; x++) {
+            int miroire2 = width - 1 - x;
+            
+            pixelhaut = getPixel(data, width, channel_count, x, y);
+            pixelbas = getPixel(data, width, channel_count, miroire2, miroire);
+
+            setPixel(data, width, channel_count, x, y, pixelbas);
+            setPixel(data, width, channel_count, miroire2, miroire, pixelhaut);
+            
+        }
+    }
+    write_image_data("image_out.bmp", data, width, height);
+    free_image_data(data);
+}

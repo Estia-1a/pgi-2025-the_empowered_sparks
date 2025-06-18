@@ -39,4 +39,8 @@ void mirror_horizontal (char *filename);
 
 void rotate_cw(char *filename);
 
+void mirror_vertical (char *filename);
+
+void mirror_total (char *filename);
+
 #endif
