@@ -1,6 +1,6 @@
 #include <estia-image.h>
 #include <stdio.h>
-
+#include <stdlib.h>
 #include "features.h"
 #include "utils.h"
 
@@ -404,6 +404,28 @@ void color_gray_luminance(char *filename) {
     write_image_data("image_out.bmp", data, width, height);
     free_image_data(data);
 }
+
+void rotate_cw(char *filename) {
+    int width, height, channel_count;
+    unsigned char *data;
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    int new_width = height;
+    int new_height = width;
+    unsigned char *rotated_data = malloc(new_width * new_height * channel_count);
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            pixelRGB pixel = getPixel(data, width, channel_count, x, y);
+            setPixel(rotated_data, new_width, channel_count, y, new_height - 1 - x, pixel);
+        }
+    }
+
+    write_image_data("image_out.bmp", rotated_data, new_width, new_height);
+    free_image_data(data);
+    free_image_data(data);
+}
+
 
 
 
