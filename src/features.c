@@ -378,6 +378,27 @@ void color_green(char *filename) {
     free_image_data(data);
 }
 
+void color_invert(char *filename) {
+    int width,height,channel_count;
+    unsigned char *data;
+    pixelRGB pixel;
+    read_image_data(filename, &data, &width, &height, &channel_count);
+    
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            
+
+            pixel = getPixel(data, width, channel_count, x, y);
+            pixel.R = 255 - pixel.R ;
+            pixel.B = 255 - pixel.B ;
+            pixel.G = 255 - pixel.G ;
+            setPixel(data, width, channel_count, x, y, pixel);
+        }
+    }
+    write_image_data("image_out.bmp", data, width, height);
+    free_image_data(data);
+}
+
 void color_gray_luminance(char *filename) {
     int width, height, channel_count;
     unsigned char *data;
@@ -404,11 +425,6 @@ void color_gray_luminance(char *filename) {
     write_image_data("image_out.bmp", data, width, height);
     free_image_data(data);
 }
-
-
-
-
-
 
 void mirror_horizontal(char*filename){
    int width,height,channel_count;
