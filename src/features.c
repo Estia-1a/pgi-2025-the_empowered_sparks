@@ -489,6 +489,25 @@ void mirror_vertical(char*filename){
     free_image_data(data);
 }
 
+void rotate_acw(char *filename) {
+    int width, height, channel_count;
+    unsigned char *data;
+    read_image_data(filename, &data, &width, &height, &channel_count);
+    unsigned char *rotated_data = malloc(width * height * channel_count);
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            pixelRGB pixel = getPixel(data, width, channel_count, x, y);
+            setPixel(rotated_data, height, channel_count, y, width - 1 - x, pixel);
+        }
+    }
+
+    write_image_data("image_out.bmp", rotated_data, height, width);
+    free_image_data(data);
+    free(rotated_data);
+}
+
+
 void mirror_total(char*filename){
    int width,height,channel_count;
     unsigned char *data;
