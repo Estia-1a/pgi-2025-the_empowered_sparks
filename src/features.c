@@ -1,6 +1,7 @@
 #include <estia-image.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdlib.h>
 #include "features.h"
 #include "utils.h"
 
@@ -101,7 +102,7 @@ void min_pixel(char *filename){
 }
 
 void max_pixel(char *filename){
- int width, height, channel_count, max, max_x=0, max_y=0;
+ int width, height, channel_count, max=0, max_x=0, max_y=0;
     unsigned char *data;
     pixelRGB pixel1;
     pixelRGB max_pixel1;
@@ -379,6 +380,27 @@ void color_green(char *filename) {
     free_image_data(data);
 }
 
+void color_invert(char *filename) {
+    int width,height,channel_count;
+    unsigned char *data;
+    pixelRGB pixel;
+    read_image_data(filename, &data, &width, &height, &channel_count);
+    
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            
+
+            pixel = getPixel(data, width, channel_count, x, y);
+            pixel.R = 255 - pixel.R ;
+            pixel.B = 255 - pixel.B ;
+            pixel.G = 255 - pixel.G ;
+            setPixel(data, width, channel_count, x, y, pixel);
+        }
+    }
+    write_image_data("image_out.bmp", data, width, height);
+    free_image_data(data);
+}
+
 void color_gray_luminance(char *filename) {
     int width, height, channel_count;
     unsigned char *data;
@@ -406,22 +428,63 @@ void color_gray_luminance(char *filename) {
     free_image_data(data);
 }
 
-void color_invert(char *filename) {
-    int width,height,channel_count;
+void rotate_cw(char *filename) {
+    int width, height, channel_count;
     unsigned char *data;
-    pixelRGB pixel;
     read_image_data(filename, &data, &width, &height, &channel_count);
-    
+    unsigned char *rotated_data = malloc(height * width * channel_count);
+
     for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            pixelRGB pixel = getPixel(data, width, channel_count, x, y);
+            setPixel(rotated_data, height, channel_count, height - 1 - y, x, pixel);
+        }
+    }
+
+    write_image_data("image_out.bmp", rotated_data, height, width);
+    free_image_data(data);
+    free(rotated_data);
+}
+
+void mirror_horizontal(char*filename){
+   int width,height,channel_count;
+    unsigned char *data;
+    pixelRGB pixeldroit, pixelgauche;
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width/2; x++) {
+            int miroire = width - 1 - x;
+
+            pixeldroit = getPixel(data, width, channel_count, x, y);
+            pixelgauche = getPixel(data, width, channel_count, miroire, y);
+
+            setPixel(data, width, channel_count, x, y, pixelgauche);
+            setPixel(data, width, channel_count, miroire, y, pixeldroit);
+            
+        }
+    }
+    write_image_data("image_out.bmp", data, width, height);
+    free_image_data(data);
+}
+
+void mirror_vertical(char*filename){
+   int width,height,channel_count;
+    unsigned char *data;
+    pixelRGB pixelbas, pixelhaut;
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    for (int y = 0; y < height/2; y++) {
+        int miroire = height - 1 - y;
         for (int x = 0; x < width; x++) {
             
 
-            pixel = getPixel(data, width, channel_count, x, y);
+            pixelhaut = getPixel(data, width, channel_count, x, y);
+            pixelbas = getPixel(data, width, channel_count, x, miroire);
+
+            setPixel(data, width, channel_count, x, y, pixelbas);
+            setPixel(data, width, channel_count, x, miroire, pixelhaut);
             
-            pixel.R = 255 - pixel.R ;
-            pixel.B = 255 - pixel.B ;
-            pixel.G = 255 - pixel.G ;
-            setPixel(data, width, channel_count, x, y, pixel);
         }
     }
     write_image_data("image_out.bmp", data, width, height);
@@ -459,3 +522,45 @@ void scale_crop(char *filename, int center_x, int center_y, int width, int heigh
 
 }
 
+
+void rotate_acw(char *filename) {
+    int width, height, channel_count;
+    unsigned char *data;
+    read_image_data(filename, &data, &width, &height, &channel_count);
+    unsigned char *rotated_data = malloc(width * height * channel_count);
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            pixelRGB pixel = getPixel(data, width, channel_count, x, y);
+            setPixel(rotated_data, height, channel_count, y, width - 1 - x, pixel);
+        }
+    }
+
+    write_image_data("image_out.bmp", rotated_data, height, width);
+    free_image_data(data);
+    free(rotated_data);
+}
+
+
+void mirror_total(char*filename){
+   int width,height,channel_count;
+    unsigned char *data;
+    pixelRGB pixelbas, pixelhaut;
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    for (int y = 0; y < height/2; y++) {
+        int miroire = height - 1 - y;
+        for (int x = 0; x < width; x++) {
+            int miroire2 = width - 1 - x;
+            
+            pixelhaut = getPixel(data, width, channel_count, x, y);
+            pixelbas = getPixel(data, width, channel_count, miroire2, miroire);
+
+            setPixel(data, width, channel_count, x, y, pixelbas);
+            setPixel(data, width, channel_count, miroire2, miroire, pixelhaut);
+            
+        }
+    }
+    write_image_data("image_out.bmp", data, width, height);
+    free_image_data(data);
+}

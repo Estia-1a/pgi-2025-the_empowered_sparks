@@ -36,5 +36,14 @@ void color_green(char *filename);
 void color_gray_luminance(char *filename);
 
 void scale_crop(char *filename, int center_x, int center_y, int width, int heigth);
+void mirror_horizontal (char *filename);
+
+void rotate_cw(char *filename);
+
+void mirror_vertical (char *filename);
+
+void mirror_total (char *filename);
+
+void rotate_acw(char * filename);
 
 #endif
