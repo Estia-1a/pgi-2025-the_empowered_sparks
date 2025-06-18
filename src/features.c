@@ -454,15 +454,14 @@ void mirror_horizontal(char*filename){
     read_image_data(filename, &data, &width, &height, &channel_count);
 
     for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
-            int miroire = width - x;
-            int miroire2 = width - x; 
-            
+        for (int x = 0; x < width/2; x++) {
+            int miroire = width - 1 - x;
 
+            pixeldroit = getPixel(data, width, channel_count, x, y);
             pixelgauche = getPixel(data, width, channel_count, miroire, y);
-            pixeldroit = getPixel(data, width, channel_count, miroire2, y);
-            setPixel(data, width, channel_count, miroire, y, pixelgauche);
-            setPixel(data, width, channel_count, miroire2 , y, pixeldroit);
+
+            setPixel(data, width, channel_count, x, y, pixelgauche);
+            setPixel(data, width, channel_count, miroire, y, pixeldroit);
             
         }
     }
