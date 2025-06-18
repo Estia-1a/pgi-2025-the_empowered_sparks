@@ -101,7 +101,7 @@ void min_pixel(char *filename){
 }
 
 void max_pixel(char *filename){
- int width, height, channel_count, max=0, max_x=0, max_y=0;
+ int width, height, channel_count, max=-1, max_x=0, max_y=0;
     unsigned char *data;
     pixelRGB pixel1;
     pixelRGB max_pixel1;
