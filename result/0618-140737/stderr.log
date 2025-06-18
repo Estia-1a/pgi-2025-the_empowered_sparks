@@ -1,0 +1,4 @@
+/home/runner/work/pgi-2025-the_empowered_sparks/pgi-2025-the_empowered_sparks/src/main.c: In function ‘main’:
+/home/runner/work/pgi-2025-the_empowered_sparks/pgi-2025-the_empowered_sparks/src/main.c:90:5: warning: implicit declaration of function ‘mirror_vertical’ [-Wimplicit-function-declaration]
+   90 |     mirror_vertical(configuration.filenames[0]);
+      |     ^~~~~~~~~~~~~~~
