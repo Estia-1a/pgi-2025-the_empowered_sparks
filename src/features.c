@@ -101,7 +101,7 @@ void min_pixel(char *filename){
 }
 
 void max_pixel(char *filename){
- int width, height, channel_count, max, max_x=0, max_y=0;
+ int width, height, channel_count, max=0, max_x=0, max_y=0;
     unsigned char *data;
     pixelRGB pixel1;
     pixelRGB max_pixel1;
@@ -323,6 +323,29 @@ void color_invert(char *filename) {
             pixel.B = 255 - pixel.B ;
             pixel.G = 255 - pixel.G ;
             setPixel(data, width, channel_count, x, y, pixel);
+        }
+    }
+    write_image_data("image_out.bmp", data, width, height);
+    free_image_data(data);
+}
+
+void mirror_horizontal(char*filename){
+   int width,height,channel_count;
+    unsigned char *data;
+    pixelRGB pixeldroit, pixelgauche;
+    read_image_data(filename, &data, &width, &height, &channel_count);
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int miroire = width - x;
+            int miroire2 = width - x; 
+            
+
+            pixelgauche = getPixel(data, width, channel_count, miroire, y);
+            pixeldroit = getPixel(data, width, channel_count, miroire2, y);
+            setPixel(data, width, channel_count, miroire, y, pixelgauche);
+            setPixel(data, width, channel_count, miroire2 , y, pixeldroit);
+            
         }
     }
     write_image_data("image_out.bmp", data, width, height);

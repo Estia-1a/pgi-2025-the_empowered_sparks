@@ -33,6 +33,7 @@ void color_green(char *filename);
 
 void color_gray_luminance(char *filename);
 
+void mirror_horizontal (char *filename);
 
 
 #endif
