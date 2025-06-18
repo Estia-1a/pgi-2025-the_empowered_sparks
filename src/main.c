@@ -101,6 +101,9 @@ int main(int argc, char **argv) {
   } else if ( strncmp(configuration.command, "mirror_total", 12) == 0){
   /* mirror_total function is defined in feature.h and implemented in feature.c */
     mirror_total(configuration.filenames[0]);
+  } else if ( strncmp(configuration.command, "color_desaturate", 16) == 0){
+  /* mirror_total function is defined in feature.h and implemented in feature.c */
+    color_desaturate(configuration.filenames[0]);
   }
   /*
    * TO COMPLETE
