@@ -79,15 +79,13 @@ int main(int argc, char **argv) {
   } else if ( strncmp(configuration.command, "color_invert", 12) == 0){
   /* color_invert function is defined in feature.h and implemented in feature.c */
   color_invert(configuration.filenames[0]);
-} else if ( strncmp(configuration.command, "scale_crop", 11) == 0){
+  } else if ( strncmp(configuration.command, "scale_crop", 11) == 0){
   /* color_invert function is defined in feature.h and implemented in feature.c */
   int center_x = atoi(configuration.arguments[0]);
   int center_y = atoi(configuration.arguments[1]);
   int width = atoi(configuration.arguments[2]);
   int height = atoi(configuration.arguments[3]);
   scale_crop(configuration.filenames[0],center_x,center_y, width,height);
-}
-    color_invert(configuration.filenames[0]);
   } else if ( strncmp(configuration.command, "mirror_horizontal", 17) == 0){
   /* mirror_horizontal function is defined in feature.h and implemented in feature.c */
     mirror_horizontal(configuration.filenames[0]);
