@@ -507,10 +507,7 @@ void scale_crop(char *filename, int center_x, int center_y, int width, int heigh
 
             if (x_src >= 0 && x_src < src_width && y_src >= 0 && y_src < src_height){
                 pixel = getPixel(data,src_width,channel_count,x_src, y_src);
-            } else {
-                pixel.R = pixel.G = pixel.B = 0;
-            }
-
+            } 
             setPixel(dst_data,width, channel_count, x, y, pixel);
 
         }}
